@@ -8,7 +8,7 @@
 
     try {
         $pdo = new PDO(
-            "mysql:host=$servidor;
+            "mysql:host=$server;
             dbname=$database;
             charset=utf8", 
             $user,

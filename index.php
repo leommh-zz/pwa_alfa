@@ -18,6 +18,7 @@
     <script src="js/jquery-3.3.1.min.js"></script>
     <script src="js/jquery.cycle2.min.js"></script>
     <script src="js/materialize.min.js"></script>
+    <script src="js/functions.js"></script>
 
 </head>
     <body>
@@ -51,14 +52,9 @@
         <ul class="sidenav" id="mobile-demo">
         </ul>
 
-        <!-- Load - Script -->
-        <script type="text/javascript">
-            $(document).ready(function(){
-                $(".load").fadeOut("slow", function(){
-                    $(".load").hide();
-                })
-            })
-        </script>
+        <main class="container">
+            <div id="msg">  </div>
+        </main>
 
     </body>
 </html>
