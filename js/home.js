@@ -1,11 +1,11 @@
 $(document).ready(function(){
+
 	//produtos do cache
 	produtos = localStorage.getItem("produtos");
 
-	$.getJSON("json/produto.php", function(){
+	$.getJSON("json/produto.php", () => {
 		$(".produto").html("<img src='imagens/load.gif'> Carregando produtos");
 	}).done(dados => {
-		console.log("Carregando produtos do JSON");
 		//jogar os dados no .produto
 		preencherProdutos(dados);
 		cache = JSON.stringify(dados);
@@ -16,10 +16,9 @@ $(document).ready(function(){
 		preencherProdutos(dados);
 	})
 
-	
 })
 
-function fechar() {
+function fechar(){
 	$("#app").fadeOut("slow", () => {
 		$("#app").hide();
 	})
