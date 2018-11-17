@@ -5,6 +5,7 @@ $(document).ready(function(){
 	if ( op == "add" ) {
 
 		console.log("Adicionando produto ao carrinho");
+		
 		//recuperar o id
 		id = retornaId(5);
 
@@ -12,15 +13,15 @@ $(document).ready(function(){
 
 		if ( !produto ) {
 
-			$.getJSON("json/produto.php?op=produto&id="+id, function(){
-				$(".produto").html("<img src='imagens/load.gif'> Carregando produto...");
-			}).done(function(dados){
+			$.getJSON("json/produto.php?op=produto&id="+id, 
+			() => $(".produto").html(`
+				<img src='imagens/load.gif'> 
+				Carregando produto...
+			`)).done(dados => {
 				cache = JSON.stringify(dados);
 				localStorage.setItem("produto"+id,cache);
 				produto = JSON.parse( cache );
-			}).fail(function(){
-				$(".produto").html("Erro ao carregar produto");
-			})
+			}).fail(() => $(".produto").html("Erro ao carregar produto"))
 		}
 
 		//carrinho
@@ -30,7 +31,7 @@ $(document).ready(function(){
 			carrinho = [];
 		} 
 
-		$.each(produto, function( key, val ) {
+		$.each(produto, ( key, val ) => {
 			//verificar se já existe este item no carrinho
 			c = buscaItem(carrinho, val.id);
 			if ( c == 0 ){
@@ -64,7 +65,6 @@ $(document).ready(function(){
 function buscaItem(carrinho, id){
 	c = 0;
 	$.each(carrinho, function (key, val){
-		// if (val.id == id) c++;
 		val.id == id ? c++ : c;
 	})
 	console.log(`items: ${ c }`);
@@ -124,5 +124,12 @@ function mostrarCarrinho(){
 		})
 		
 
+	}
+}
+
+function remover(id){
+	if( confirm("deseja mesmo excluir?") ){
+		carrinho = JSON.parse(localStorage.getItem("carrinho"));
+		carrinho.splice(id, 1);
 	}
 }
