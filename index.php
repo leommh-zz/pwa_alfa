@@ -23,13 +23,32 @@
 	<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="js/materialize.min.js"></script>
 	<script type="text/javascript" src="js/funcoes.js"></script>
-	<script type="text/javascript" 
-	src="js/<?=$arquivo;?>"></script>
+	<script type="text/javascript" src="js/<?=$arquivo;?>"></script>
+	<link rel="manifest" href="manifest.json">
 </head>
 <body>
    <div class="load">
    	<img src="imagens/load.gif">
    </div>
+
+
+	<?php 
+
+		if ($pagina == "home"){
+			echo "
+				<div id='app'>
+					<a href='javascript:;' id='addBtn' class='btn red darken-4'>
+						Adicionar App a tela Inicial
+					</a>
+					<a href='javascript:fechar()' class='btn red darken-4'>
+						Agora não
+					</a>
+				</div>
+			";
+		}
+	
+	?>
+
 
    <nav>
     <div class="nav-wrapper">

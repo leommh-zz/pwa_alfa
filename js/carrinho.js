@@ -80,8 +80,9 @@ function mostrarCarrinho(){
 
 	//pegar o carrinho do cache
 	carrinho = localStorage.getItem("carrinho");
+	console.log(carrinho)
 
-	if (!carrinho){
+	if (carrinho === null){
 		$(".produto").html(`
 			Não existe nenhum item no seu carrinho!
 		`)
@@ -98,13 +99,19 @@ function mostrarCarrinho(){
 				<tbody>
 
 				</tbody>
+			
 			</table>
+			<p>
+				<button type="button" class="btn red darken-4" onclick="limpar()">
+					Limpar
+				</button>
+			</p>
 		`);
 
 		//mostrar as linhas dos produtos no tBody
 		$.each(carrinho, (key, val) => {
 			$("tbody").append(`
-				<tr>
+				<tr id="linha_${ key }">
 					<td>
 						<img src="${ val.foto }" width="100px">
 					</td>
@@ -115,7 +122,7 @@ function mostrarCarrinho(){
 						${ val.valor }
 					</td>
 					<td>
-						<button type="button" class="btn red darken-4" onclick="remover(${ val.id })">
+						<button type="button" class="btn red darken-4" onclick="remover(${ key })">
 							<i class="material-icons">remove_shopping_cart</i>
 						</button>
 					</td>
@@ -131,5 +138,27 @@ function remover(id){
 	if( confirm("deseja mesmo excluir?") ){
 		carrinho = JSON.parse(localStorage.getItem("carrinho"));
 		carrinho.splice(id, 1);
+		console.log(carrinho.length)
+		if (carrinho.length > 0){
+			carrinho = JSOM.stringify(carrinho);
+			localStorage.setItem("carrinho", carrinho)
+			$(`#linha_${ id }`).hide("slow");
+		}else{
+			carrinho = null;
+			localStorage.setItem("carrinho", carrinho);
+			mostrarCarrinho();
+		}
+		
 	}
 }
+
+function limpar(){
+	if (confirm("deseja mesmo limpar o carrinho?")){
+		//limpa esta variavel do cache
+		localStorage.clear("carrinho");
+		
+		mostrarCarrinho();
+	}
+}
+
+// corrigir esta parte de limpar carrinho
