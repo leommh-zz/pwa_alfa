@@ -1,80 +1,68 @@
 $(document).ready(function(){
 
 	//mascara de carregamento
-	$(".load").fadeOut("slow", function()
-	{
-		$(".load").hide()
+	$(".load").fadeOut("slow", function(){
+		$(".load").hide();
 	})
 
-	//acionar menu responsivo
-	$(".sidenav").sidenav()
+	//acionar o menu responsivo
+	$(".sidenav").sidenav();
 
-	dadosCategoria = localStorage.getItem("categorias")
+	dadosCategoria = localStorage.getItem("categorias");
 
-	if (dadosCategoria) {
-		//se existir algo no storage
-		console.log('categorias do cache')
-
-		dados = JSON.parse(dadosCategoria)
-
-		//função preencher o menu
-		preencherCategoria(dados)
-	}
-	else {
-		//se não existir nada no storage
-		console.log('categorias do JSON')
-
+	if ( dadosCategoria ) {
+		//se existir algo no localStorage
+		console.log("Categorias do Cache");
+		//string em json
+		dados = JSON.parse(dadosCategoria);
+		//preencher o menu
+		preencherCategoria(dados);
+	} else{
+		console.log("Categorias do JSON");
 		//importar as categorias do JSON
-		$.getJSON("json/categoria.php", function()
-		{
-			$("#msg").html("<p> <img src='imagens/load.gif'>  Carregando categorias... </p>")
-		}).done(function(dados)
-		{
-			//deu certo devolve os dados
+		$.getJSON("json/categoria.php", function(){
+			$("#msg").html("<p><img src='imagens/load.gif'> Carregando categorias...</p>");
+		}).done(function(dados){			
+			//se deu certo, devolve os dados
 
-			cache = JSON.stringify(dados)
-
-			//guardar dados no cache
-			localStorage.setItem('categorias', cache);
-
-			//função preencher o menu
-			preencherCategoria(dados)
-
+			//tranformar o json em string
+			cache = JSON.stringify(dados);
+			//guardar os dados no cache
+			localStorage.setItem("categorias",cache);
+			//chamo a funcao para preencher o menu
+			preencherCategoria(dados);
 		}).fail(function(){
-			//erro ao carregar os dados
-			$("#msg").html("<p>Erro ao carregar categorias")
+			//se deu erro mostrar mensagem
+			$("#msg").html("Erro ao carregar categorias");
+		}) //fail
+	} //fim do if
+
+	//funcao para preencher os menus
+	function preencherCategoria(dados) {
+		$.each(dados, function (key,val) {
+			$("#mobile-demo,#menu,#footer").prepend("<li><a href='categoria/"+val.id+"'>"+val.categoria+"</a></li>");
 		})
+		//apagar a mensagem do #msg
+		$("#msg").html('');
 	}
 
-}) // document.ready
+})
 
-// função preencher categorias
-function preencherCategoria(dados){
-	$.each(dados, function( key, val ){
-		$("#mobile-demo, #menu, #footer").prepend(`
-			<li>
-				<a href="categoria/${val.id}">${val.categoria}</a>
-			</li>
-		`)
-	})
-	//apagar msg do #msg
-	$("#msg").html('');
-}
 
-//function pegar id
+//funcao paga pegar o id
 function retornaId(pos) {
-	pagina = window.location.href
-	p = pagina.split("/")
-	console.log("Posição" + p[pos])
-	return p[pos]
+	pagina = window.location.href;
+	//console.log("Página: "+pagina);
+	p = pagina.split("/");
+	console.log("Posição: " + p[pos] );
+	return p[pos];
 }
 
 //funcao para preencher os produtos
 function preencherProdutos(dados) {
 	$(".produto").html("");
 	$.each(dados, function (key,val) {
-		$(".produto").append(`
-			<div class='col l3 m6 s12 center-align'>
+		$(".produto").append(`<div class='col l3 m6 s12 center-align'>
 				<div class='card'>
 				<img src='${val.foto}' class='responsive-img'>
 				<p>${val.nome}</p>

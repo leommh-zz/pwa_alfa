@@ -6,6 +6,7 @@ $(document).ready(function(){
 		$(".produto").html("<img src='imagens/load.gif'> Carregando produtos");
 	}).done(function(dados){
 		console.log("Carregando produtos do JSON");
+		//jogar os dados no .produto
 		preencherProdutos(dados);
 		cache = JSON.stringify(dados);
 		localStorage.setItem("produtos",dados);
@@ -14,5 +15,6 @@ $(document).ready(function(){
 		dados = JSON.parse(produtos);
 		preencherProdutos(dados);
 	})
-	console.log(dados)
+
+	
 })
